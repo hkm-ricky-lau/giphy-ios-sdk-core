@@ -466,7 +466,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         requestSuggestions(for: "cas fails")
         requestSuggestions(for: "cat     fails")
         requestSuggestions(for: "cat & dog")
-        requestSuggestions(for: "cat %20")
+        requestSuggestions(for: "cat ")
         requestSuggestions(for: "carm")
     }
     

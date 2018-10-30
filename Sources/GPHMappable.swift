@@ -94,6 +94,18 @@ public extension GPHMappable {
         }
         return nil
     }
+    
+    /// Map a Int to an String.
+    ///
+    /// - parameter number: Int version of the String to be mapped to String type
+    /// - returns: a String object or nil
+    ///
+    public static func parseString(_ number: Int?) -> String? {
+        if let number = number {
+            return String(number)
+        }
+        return nil
+    }
 }
 
 // MARK: Extension -- DateFormatter
