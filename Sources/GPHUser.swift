@@ -213,6 +213,9 @@ extension GPHUser: GPHMappable {
         let obj = GPHUser(username)
 
         obj.userId = data["id"] as? String
+        if let id = data["id"] as? Int {
+            obj.userId = String(id)
+        }
         obj.isPublic = data["is_public"] as? Bool ?? false
         obj.isStaff = data["is_staff"] as? Bool ?? false
         obj.isVerified = data["is_verified"] as? Bool ?? false
