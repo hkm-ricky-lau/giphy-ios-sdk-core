@@ -125,7 +125,7 @@ import Foundation
         return { (data, response, error) in
             // Error returned
             
-            if let error = error as? GPHHTTPError, (error.errorCode < 400 && error.errorCode >= 500) {
+            if let error = error as? GPHHTTPError {
                 completionHandler(nil, error)
                 return
             }
