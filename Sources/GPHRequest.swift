@@ -191,13 +191,14 @@ import Foundation
                 if let result = result as? GPHJSONObject {
                     // Got the JSON
                     let httpResponse = response! as! HTTPURLResponse
-                    // Get the status code from the JSON if available and prefer it over the response code from HTTPURLRespons
+                    // Get the status code from the JSON if available and prefer it over the response code from HTTPURLResponse
+                    // The JSON can be a GPHMeta object or a Kong error with the fortmat: {"status" : 403, "message": "xxxxx"}
                     // If not found return the actual response code from http
-                    let statusCode = ((result["meta"] as? GPHJSONObject)?["status"] as? Int) ?? httpResponse.statusCode
+                    let statusCode = ((result["meta"] as? GPHJSONObject)?["status"] as? Int) ?? result["status"] as? Int ?? httpResponse.statusCode
                     
                     if httpResponse.statusCode != 200 || statusCode != 200 {
                         // Get the error message from JSON if available.
-                        let errorMessage = (result["meta"] as? GPHJSONObject)?["msg"] as? String
+                        let errorMessage = (result["meta"] as? GPHJSONObject)?["msg"] as? String ?? result["message"] as? String
                         // Prep the error
                         let errorAPIorHTTP = GPHHTTPError(statusCode: statusCode, description: errorMessage)
                         self.failedRequest(retry: false, data: result, response: response, error: errorAPIorHTTP)

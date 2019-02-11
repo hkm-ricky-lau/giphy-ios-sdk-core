@@ -21,7 +21,7 @@ import Foundation
     public private(set) var tid: String = ""
     
     /// Tags.
-    public private(set) var tags: [String]?
+    public fileprivate(set) var tags: [String]?
 
     /// JSON Representation.
     public fileprivate(set) var jsonRepresentation: GPHJSONObject?

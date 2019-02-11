@@ -123,29 +123,21 @@ import Foundation
                                            completionHandler: @escaping ((_ response: T?, _ error: Error?) -> Void)) -> GPHJSONCompletionHandler where T : GPHResponse, T : GPHMappable {
         
         return { (data, response, error) in
-            // Error returned
-            
-            if let error = error as? GPHHTTPError, (error.errorCode < 400 && error.errorCode >= 500) {
-                completionHandler(nil, error)
-                return
-            }
-            
-            // Handle the (impossible?) case where there is no data back from the server,
-            // but there is no error returned
-            guard let data = data else {
-                completionHandler(nil, GPHJSONMappingError(description: "No data returned from the server, but no error reported."))
-                return
-            }
-            
-            do {
-                let mappableObject: T.GPHMappableObject = try T.mapData(data, options: config.options ?? [:])
-                guard let obj = mappableObject as? T else {
+            if let data = data {
+                let object: T.GPHMappableObject? = try? T.mapData(data, options: config.options ?? [:])
+                
+                // There is an error and extra data (es. sign up errors)
+                if let error = error as? GPHHTTPError {
+                    completionHandler(object as? T, error)
+                    return
+                }
+                guard let obj = object as? T else {
                     completionHandler(nil, GPHJSONMappingError(description: "Couldn't cast " + String(describing: T.GPHMappableObject.self) + " to " + String(describing: T.self) + " during JSON response parsing."))
                     return
                 }
                 completionHandler(obj, error)
-            } catch {
-                completionHandler(nil, error)
+            } else {
+                completionHandler(nil, error ?? GPHJSONMappingError(description: "No data returned from the server, but no error reported."))
             }
         }
     }
