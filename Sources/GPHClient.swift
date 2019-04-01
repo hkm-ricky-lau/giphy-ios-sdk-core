@@ -135,47 +135,6 @@ public typealias GPHJSONCompletionHandler = (_ data: GPHJSONObject?, _ response:
                                 completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
-    
-    //MARK: Translate Endpoint
-    
-    /// Translate
-    ///
-    /// - parameter term: term or phrase to translate into a GIF|Sticker
-    /// - parameter media: Media type (default: .gif)
-    /// - parameter rating: maximum rating of returned content (default R)
-    /// - parameter lang: language of the content (default English)
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @objc
-    @discardableResult public func translate(_ term: String,
-                                      media: GPHMediaType = .gif,
-                                      rating: GPHRatingType = .ratedR,
-                                      lang: GPHLanguageType = .english,
-                                      completionHandler: @escaping (_ response: GPHMediaResponse?, _ error: Error?) -> Void) -> Operation {
-    
-        
-        let config = GPHRequestConfig()
-        
-        // Build the request endpoint
-        config.queryItems = [
-            URLQueryItem(name: "s", value: term),
-            URLQueryItem(name: "rating", value: rating.rawValue),
-            URLQueryItem(name: "lang", value: lang.rawValue),
-        ]
-        config.path = "\(media.rawValue)s/translate"
-        config.method = .get
-        config.apiKey = apiKey
-        config.options = [
-            "request": "translate",
-            "media": media,
-        ]
-
-        return self.httpRequest(with: config,
-                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
-    }
-    
-    
     //MARK: Random Endpoint
     
     /// Random
@@ -270,6 +229,46 @@ public typealias GPHJSONCompletionHandler = (_ data: GPHJSONObject?, _ response:
                                 completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
     }
     
+    //MARK: Translate Endpoint
+    
+    /// Translate
+    ///
+    /// - parameter term: term or phrase to translate into a GIF|Sticker
+    /// - parameter media: Media type (default: .gif)
+    /// - parameter rating: maximum rating of returned content (default R)
+    /// - parameter lang: language of the content (default English)
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @available(*, deprecated, message: "This endpoint is no longer supported.")
+    @discardableResult public func translate(_ term: String,
+                                             media: GPHMediaType = .gif,
+                                             rating: GPHRatingType = .ratedR,
+                                             lang: GPHLanguageType = .english,
+                                             completionHandler: @escaping (_ response: GPHMediaResponse?, _ error: Error?) -> Void) -> Operation {
+        
+        
+        let config = GPHRequestConfig()
+        
+        // Build the request endpoint
+        config.queryItems = [
+            URLQueryItem(name: "s", value: term),
+            URLQueryItem(name: "rating", value: rating.rawValue),
+            URLQueryItem(name: "lang", value: lang.rawValue),
+        ]
+        config.path = "\(media.rawValue)s/translate"
+        config.method = .get
+        config.apiKey = apiKey
+        config.options = [
+            "request": "translate",
+            "media": media,
+        ]
+        
+        return self.httpRequest(with: config,
+                                completionHandler: GPHAbstractClient.parseJSONResponse(config, completionHandler: completionHandler))
+    }
+    
     //MARK: Categories Endpoint
     
     /// Top Categories for GIFs
@@ -281,6 +280,7 @@ public typealias GPHJSONCompletionHandler = (_ data: GPHJSONObject?, _ response:
     /// - returns: A cancellable operation.
     ///
     @objc
+    @available(*, deprecated, message: "This endpoint is no longer supported.")
     @discardableResult public func categoriesForGifs(_  offset: Int = 0,
                                                         limit: Int = 25,
                                                         sort: String = "",
@@ -317,6 +317,7 @@ public typealias GPHJSONCompletionHandler = (_ data: GPHJSONObject?, _ response:
     /// - returns: A cancellable operation.
     ///
     @objc
+    @available(*, deprecated, message: "This endpoint is no longer supported.")
     @discardableResult public func subCategoriesForGifs(_ category: String,
                                                           offset: Int = 0,
                                                           limit: Int = 25,
@@ -360,6 +361,7 @@ public typealias GPHJSONCompletionHandler = (_ data: GPHJSONObject?, _ response:
     /// - returns: A cancellable operation.
     ///
     @objc
+    @available(*, deprecated, message: "This endpoint is no longer supported.")
     @discardableResult public func gifsByCategory(_ category: String,
                                                     subCategory: String,
                                                     offset: Int = 0,
@@ -401,6 +403,7 @@ public typealias GPHJSONCompletionHandler = (_ data: GPHJSONObject?, _ response:
     /// - returns: A cancellable operation.
     ///
     @objc
+    @available(*, deprecated, message: "This endpoint is no longer supported.")
     @discardableResult public func termSuggestions(_ term: String,
                                                    completionHandler: @escaping (_ response: GPHListTermSuggestionResponse?, _ error: Error?) -> Void) -> Operation {
         
@@ -427,6 +430,7 @@ public typealias GPHJSONCompletionHandler = (_ data: GPHJSONObject?, _ response:
     /// - returns: A cancellable operation.
     ///
     @objc
+    @available(*, deprecated, message: "This endpoint is no longer supported.")
     @discardableResult public func channel(_ channelId: Int,
                                           media: GPHMediaType,
                                           completionHandler: @escaping (_ response: GPHChannelResponse?, _ error: Error?) -> Void) -> Operation {
@@ -456,6 +460,7 @@ public typealias GPHJSONCompletionHandler = (_ data: GPHJSONObject?, _ response:
     /// - returns: A cancellable operation.
     ///
     @objc
+    @available(*, deprecated, message: "This endpoint is no longer supported.")
     @discardableResult public func channelChildren(_ channelId: Int,
                                               offset: Int = 0,
                                               limit: Int = 25,
@@ -490,6 +495,7 @@ public typealias GPHJSONCompletionHandler = (_ data: GPHJSONObject?, _ response:
     /// - returns: A cancellable operation.
     ///
     @objc
+    @available(*, deprecated, message: "This endpoint is no longer supported.")
     @discardableResult public func channelContent(_ channelId: Int,
                                               offset: Int = 0,
                                               limit: Int = 25,

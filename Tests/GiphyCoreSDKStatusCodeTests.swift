@@ -17,7 +17,7 @@ class GiphyCoreSDKStatusCodeTests: XCTestCase {
     
     // MARK: Setup Client and Tests
     
-    let client = GPHClient(apiKey: "4OMJYpPoYwVpe")
+    let client = GPHClient(apiKey: "q1NxJ2FlZ6MHosSRwFuyvOdq5NkuWXAk")
     let clientProblematicApiKey = GPHClient(apiKey: "some_fake_api_key")
     
     override func setUp() {
