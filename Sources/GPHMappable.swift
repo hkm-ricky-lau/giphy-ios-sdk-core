@@ -38,7 +38,7 @@ public extension GPHMappable {
     /// - parameter date: String version of the Date to be mapped to Date type
     /// - returns: a Date object or nil
     ///
-    public static func parseDate(_ date: String?) -> Date? {
+    static func parseDate(_ date: String?) -> Date? {
         //"2013-03-21 04:03:08" "2018-06-05T21:46:37.525Z" "2018-08-02T12:00:00Z"
         let dateFormats = ["yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "yyyy-MM-dd'T'HH:mm:ss'Z'"]
         for format in dateFormats {
@@ -49,7 +49,7 @@ public extension GPHMappable {
         return nil
     }
     
-    public static func parseDate(_ date: String?, format: String) -> Date? {
+    static func parseDate(_ date: String?, format: String) -> Date? {
         guard let date = date else { return nil }
         let dateFormatter = DateFormatter.standardDateFormatter
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC") ?? TimeZone.current
@@ -62,7 +62,7 @@ public extension GPHMappable {
     /// - parameter urk: String version of the URL to be mapped to URL type
     /// - returns: a Date object or nil
     ///
-    public static func parseURL(_ url: String?) -> URL? {
+    static func parseURL(_ url: String?) -> URL? {
         if let url = url {
             return URL(string: url)
         }
@@ -75,7 +75,7 @@ public extension GPHMappable {
     /// - parameter rating: String version of the rating to be mapped to GPHRatingType type
     /// - returns: a GPHRatingType object or nil
     ///
-    public static func parseRating(_ rating: String?) -> GPHRatingType {
+    static func parseRating(_ rating: String?) -> GPHRatingType {
         if let rating = rating {
             return GPHRatingType(rawValue: rating) ?? .unrated
         }
@@ -88,7 +88,7 @@ public extension GPHMappable {
     /// - parameter number: String version of the Int to be mapped to Int type
     /// - returns: a Int object or nil
     ///
-    public static func parseInt(_ number: String?) -> Int? {
+    static func parseInt(_ number: String?) -> Int? {
         if let number = number {
             return Int(number)
         }
@@ -100,7 +100,7 @@ public extension GPHMappable {
     /// - parameter number: Int version of the String to be mapped to String type
     /// - returns: a String object or nil
     ///
-    public static func parseString(_ number: Int?) -> String? {
+    static func parseString(_ number: Int?) -> String? {
         if let number = number {
             return String(number)
         }
