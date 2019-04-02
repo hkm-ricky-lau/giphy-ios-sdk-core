@@ -29,7 +29,6 @@ The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/
 
 * [Search GIFs/Stickers](#search-endpoint)
 * [Trending GIFs/Stickers](#trending-endpoint)
-* [Translate GIFs/Stickers](#translate-endpoint)
 * [Random GIFs/Stickers](#random-endpoint)
 * [GIF by ID](#get-gif-by-id-endpoint)
 * [GIFs by IDs](#get-gifs-by-ids-endpoint)
