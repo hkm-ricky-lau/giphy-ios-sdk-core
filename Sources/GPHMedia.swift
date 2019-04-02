@@ -235,7 +235,7 @@ extension GPHMedia {
 ///
 public extension GPHMedia {
     
-    @objc public static func mapJSON(_ json: GPHJSONObject, request:String,  media: GPHMediaType) throws -> GPHMedia {
+    @objc static func mapJSON(_ json: GPHJSONObject, request:String,  media: GPHMediaType) throws -> GPHMedia {
         let options: [String: Any?] = [
             "request": request,
             "media": media

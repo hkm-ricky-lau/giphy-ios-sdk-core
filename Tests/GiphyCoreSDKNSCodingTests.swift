@@ -18,7 +18,7 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
     
     // MARK: Setup Client and Tests
     
-    let client = GPHClient(apiKey: "4OMJYpPoYwVpe")
+    let client = GPHClient(apiKey: "dc6zaTOxFJmzC")
     
     override func setUp() {
         super.setUp()
@@ -195,80 +195,6 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    // MARK: Test Translate
-    
-    func testNSCodingForTranslateGIF() {
-        // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Receive Translate Result & Map it to Object")
-        
-        let _ = client.translate("cats") { (response, error) in
-            
-            if let error = error as NSError? {
-                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
-            }
-            
-            if let response = response, let result = response.data  {
-                print(response.meta)
-                do {
-                    // Test the initial mapping before archiving
-                    try? self.validateJSONForMedia(result, media: .gif, request: "translate")
-                    
-                    // Test if we can archive & unarchive
-                    let obj = try self.cloneViaCoding(root: result)
-                    
-                    // Test mapping after archive & unarchive
-                    try? self.validateJSONForMedia(obj, media: .gif, request: "translate")
-                    
-                } catch let error as NSError {
-                    print(result)
-                    print(error)
-                    XCTFail("Failed to archive and unarchive")
-                }
-                promise.fulfill()
-            } else {
-                XCTFail("No Result Found")
-            }
-            
-        }
-        waitForExpectations(timeout: 1000, handler: nil)
-    }
-    
-    func testNSCodingForTranslateSticker() {
-        // Test to see if we can do a valid search request with our Client Api Key
-        let promise = expectation(description: "Status 200 & Receive Translate Result & Map it to Object")
-        
-        let _ = client.translate("cats", media: .sticker) { (response, error) in
-            
-            if let error = error as NSError? {
-                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
-            }
-            
-            if let response = response, let result = response.data  {
-                print(response.meta)
-                do {
-                    // Test the initial mapping before archiving
-                    try? self.validateJSONForMedia(result, media: .sticker, request: "translate")
-                    
-                    // Test if we can archive & unarchive
-                    let obj = try self.cloneViaCoding(root: result)
-                    
-                    // Test mapping after archive & unarchive
-                    try? self.validateJSONForMedia(obj, media: .sticker, request: "translate")
-                    
-                } catch let error as NSError {
-                    print(result)
-                    print(error)
-                    XCTFail("Failed to archive and unarchive")
-                }
-                promise.fulfill()
-            } else {
-                XCTFail("No Result Found")
-            }
-            
-        }
-        waitForExpectations(timeout: 10, handler: nil)
-    }
-    
     // MARK: Test Random
     
     func testNSCodingForRandomGIF() {
@@ -423,30 +349,39 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    // MARK: Test Term Suggestions
-    func requestSuggestions(for term: String) {
-        let promise = expectation(description: "Status 200 & Receive Term Suggestions & Map them to Objects")
+    func testNSCodingSearchBottledData() {
+        let promise = expectation(description: "Status 200 & Receive Search Results & Map them to Objects")
         
-        let _ = client.termSuggestions(term) { (response, error) in
+        
+        let _ = client.search("shy") { (response, error) in
             
             if let error = error as NSError? {
                 XCTFail("Error(\(error.code)): \(error.localizedDescription)")
             }
             
-            if let response = response, let data = response.data {
+            if let response = response, let data = response.data, let pagination = response.pagination {
                 print(response.meta)
-                // Test that suggestions always returns some values
-                XCTAssert(data.count != 0, "No suggestions found for [" + term + "]")
+                print(pagination)
+                // Test that search always returns some results
+                
+                print("VALID TOTAL: (\(pagination.filteredCount)) vs ACTUAL TOTAL:(\(pagination.count))")
+                
                 data.forEach { result in
                     do {
                         // Test the initial mapping before archiving
-                        try? self.validateJSONForTerm(result, request: "term")
+                        try? self.validateJSONForMedia(result, media: .gif, request: "search")
                         
                         // Test if we can archive & unarchive
                         let obj = try self.cloneViaCoding(root: result)
                         
+                        if let tid = obj.bottleData?.tid, let tags = obj.bottleData?.tags {
+                            print("TID: \(tid) & Tags: \(tags)")
+                        } else {
+                            print("No tid & tags")
+                        }
+                        
                         // Test mapping after archive & unarchive
-                        try? self.validateJSONForTerm(obj, request: "term")
+                        try? self.validateJSONForMedia(obj, media: .gif, request: "search")
                         
                     } catch let error as NSError {
                         print(result)
@@ -462,12 +397,78 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testNSCodingForTermSuggestions() {
-        requestSuggestions(for: "cas fails")
-        requestSuggestions(for: "cat     fails")
-        requestSuggestions(for: "cat & dog")
-        requestSuggestions(for: "cat ")
-        requestSuggestions(for: "carm")
+    // MARK: Test Translate
+    
+    func testNSCodingForTranslateGIF() {
+        // Test to see if we can do a valid search request with our Client Api Key
+        let promise = expectation(description: "Status 200 & Receive Translate Result & Map it to Object")
+        
+        let _ = client.translate("cats") { (response, error) in
+            
+            if let error = error as NSError? {
+                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
+            }
+            
+            if let response = response, let result = response.data  {
+                print(response.meta)
+                do {
+                    // Test the initial mapping before archiving
+                    try? self.validateJSONForMedia(result, media: .gif, request: "translate")
+                    
+                    // Test if we can archive & unarchive
+                    let obj = try self.cloneViaCoding(root: result)
+                    
+                    // Test mapping after archive & unarchive
+                    try? self.validateJSONForMedia(obj, media: .gif, request: "translate")
+                    
+                } catch let error as NSError {
+                    print(result)
+                    print(error)
+                    XCTFail("Failed to archive and unarchive")
+                }
+                promise.fulfill()
+            } else {
+                XCTFail("No Result Found")
+            }
+            
+        }
+        waitForExpectations(timeout: 1000, handler: nil)
+    }
+    
+    func testNSCodingForTranslateSticker() {
+        // Test to see if we can do a valid search request with our Client Api Key
+        let promise = expectation(description: "Status 200 & Receive Translate Result & Map it to Object")
+        
+        let _ = client.translate("cats", media: .sticker) { (response, error) in
+            
+            if let error = error as NSError? {
+                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
+            }
+            
+            if let response = response, let result = response.data  {
+                print(response.meta)
+                do {
+                    // Test the initial mapping before archiving
+                    try? self.validateJSONForMedia(result, media: .sticker, request: "translate")
+                    
+                    // Test if we can archive & unarchive
+                    let obj = try self.cloneViaCoding(root: result)
+                    
+                    // Test mapping after archive & unarchive
+                    try? self.validateJSONForMedia(obj, media: .sticker, request: "translate")
+                    
+                } catch let error as NSError {
+                    print(result)
+                    print(error)
+                    XCTFail("Failed to archive and unarchive")
+                }
+                promise.fulfill()
+            } else {
+                XCTFail("No Result Found")
+            }
+            
+        }
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
     // MARK: Test Categories
@@ -716,53 +717,4 @@ class GiphyCoreSDKNSCodingTests: XCTestCase {
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
-    
-    func testNSCodingSearchBottledData() {
-        let promise = expectation(description: "Status 200 & Receive Search Results & Map them to Objects")
-        
-        
-        let _ = client.search("shy") { (response, error) in
-            
-            if let error = error as NSError? {
-                XCTFail("Error(\(error.code)): \(error.localizedDescription)")
-            }
-            
-            if let response = response, let data = response.data, let pagination = response.pagination {
-                print(response.meta)
-                print(pagination)
-                // Test that search always returns some results
-                
-                print("VALID TOTAL: (\(pagination.filteredCount)) vs ACTUAL TOTAL:(\(pagination.count))")
-                
-                data.forEach { result in
-                    do {
-                        // Test the initial mapping before archiving
-                        try? self.validateJSONForMedia(result, media: .gif, request: "search")
-                        
-                        // Test if we can archive & unarchive
-                        let obj = try self.cloneViaCoding(root: result)
-                        
-                        if let tid = obj.bottleData?.tid, let tags = obj.bottleData?.tags {
-                            print("TID: \(tid) & Tags: \(tags)")
-                        } else {
-                            print("No tid & tags")
-                        }
-                        
-                        // Test mapping after archive & unarchive
-                        try? self.validateJSONForMedia(obj, media: .gif, request: "search")
-                        
-                    } catch let error as NSError {
-                        print(result)
-                        print(error)
-                        XCTFail("Failed to archive and unarchive")
-                    }
-                }
-                promise.fulfill()
-            } else {
-                XCTFail("No Result Found")
-            }
-        }
-        waitForExpectations(timeout: 10, handler: nil)
-    }
-    
 }
