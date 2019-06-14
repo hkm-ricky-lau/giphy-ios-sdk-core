@@ -92,8 +92,8 @@ import Foundation
         // after the second we wait 4 seconds,
         // after the third we wait 9 seconds, etc.
         let retryDelaySeconds = retryDelay * pow(Double(retryCount), retryDelayPower)
-        DispatchQueue.main.asyncAfter(deadline: .now() + retryDelaySeconds) {
-            self.newRequestFired()
+        DispatchQueue.main.asyncAfter(deadline: .now() + retryDelaySeconds) { [weak self] in
+            self?.newRequestFired()
         }
     }
     
