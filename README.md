@@ -1,5 +1,6 @@
-# Giphy Core SDK for Swift
+We are no longer maintaining this repository! Please head over to the new [GIPHY SDK](https://github.com/Giphy/giphy-ios-sdk-ui-example) for the best and easiest way to add GIPHY to your app.
 
+# Giphy Core SDK for Swift 
 
 The **Giphy Core SDK** is a wrapper around [Giphy API](https://github.com/Giphy/GiphyAPI).
 
