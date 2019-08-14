@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
     s.name = 'GiphyCoreSDK'
     s.module_name = 'GiphyCoreSDK'
-    s.version = '1.4.2'
+    s.version = '1.4.3'
     s.license = 'Mozilla Public License v2'
     s.summary = 'Giphy API wrapper for iOS, tvOS, watchOS & OS X.'
     s.homepage = 'https://github.com/Giphy/giphy-ios-sdk-core'
@@ -13,8 +13,9 @@ Pod::Spec.new do |s|
     s.tvos.deployment_target = '9.0'
     s.watchos.deployment_target = '2.0'
     s.swift_version = '5.0'
-    
     s.source_files = [
         'Sources/*.swift',
     ]
+    s.deprecated = true
+    s.deprecated_in_favor_of = 'Giphy'
 end
